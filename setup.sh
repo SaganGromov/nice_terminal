@@ -5,8 +5,8 @@ function install_tools() {
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    echo >> /home/sagan/.zshrc
-    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/sagan/.zshrc
+    echo >> $HOME/.zshrc
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.zshrc
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
     # Install required packages
