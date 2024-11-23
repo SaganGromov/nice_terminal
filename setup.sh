@@ -5,9 +5,9 @@ function install_tools() {
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # Add Homebrew to PATH
-    echo "eval $(/opt/homebrew/bin/brew shellenv)" >> ~/.zshrc
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    echo >> /home/sagan/.zshrc
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/sagan/.zshrc
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
     # Install required packages
     echo "Installing gcc, build-essential..."
@@ -16,6 +16,7 @@ function install_tools() {
 
     echo "Installing fzf..."
     brew install fzf
+    echo 'source <(fzf --zsh)' >> $HOME/.zshrc
     echo "Installing fd..."
     brew install fd
     echo "Installing bat, git-delta, eza, tlrc, thefuck, zoxide..."
@@ -23,9 +24,10 @@ function install_tools() {
 
     echo "Installing zsh plugins..."
     brew install zsh-autosuggestions
-    echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
     brew install zsh-syntax-highlighting
-    echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+
+    echo "source $(brew --prefix zsh-autosuggestions)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+    echo "source $(brew --prefix zsh-syntax-highlighting)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 
     # Add advanced FZF configuration
     echo "Configuring FZF..."
@@ -86,6 +88,7 @@ bindkey '\''^[[B'\'' history-search-forward
 
     # Configure thefuck
     echo "Configuring thefuck..."
+    brew install thefuck
     echo "eval $(thefuck --alias)" >> ~/.zshrc
 
     # Clone fzf-git.sh and configure
@@ -98,9 +101,6 @@ bindkey '\''^[[B'\'' history-search-forward
     echo "Setting KEYTIMEOUT..."
     echo "KEYTIMEOUT=50" >> ~/.zshrc
 
-    # Reload shell
-    echo "Reloading shell..."
-    source ~/.zshrc
 }
 
 function revert_changes() {
