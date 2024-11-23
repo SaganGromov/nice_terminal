@@ -123,10 +123,6 @@ function revert_changes() {
     # Remove fzf-git.sh directory
     rm -rf ~/fzf-git.sh
 
-    # Reload shell
-    echo "Reloading shell..."
-    source ~/.zshrc
-
     echo "Revert complete."
 }
 
