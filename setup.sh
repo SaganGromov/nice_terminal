@@ -21,6 +21,7 @@ function install_tools() {
     brew install fd
     echo "Installing bat, git-delta, eza, tlrc, thefuck, zoxide..."
     brew install bat git-delta eza tlrc thefuck zoxide
+    echo 'alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions" >> $HOME/.zshrc'
 
     echo "Installing zsh plugins..."
     brew install zsh-autosuggestions
