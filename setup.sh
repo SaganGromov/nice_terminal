@@ -23,6 +23,12 @@ function install_tools() {
     brew install bat git-delta eza tlrc thefuck zoxide
     echo 'alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions" >> $HOME/.zshrc'
 
+
+    echo 'eval "$(zoxide init zsh)"' >> $HOME/.zshrc
+
+    echo 'alias cd="z"' >> $HOME/.zshrc
+
+    
     echo "Installing zsh plugins..."
     brew install zsh-autosuggestions
     brew install zsh-syntax-highlighting
