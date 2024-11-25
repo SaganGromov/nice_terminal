@@ -101,6 +101,7 @@ bindkey '\''^[[B'\'' history-search-forward
     # Set KEYTIMEOUT
     echo "Setting KEYTIMEOUT..."
     echo "KEYTIMEOUT=50" >> ~/.zshrc
+    echo "alias cd='z'" >> ~/.zshrc
 
 }
 
