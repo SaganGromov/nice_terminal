@@ -1,8 +1,26 @@
 #!/bin/bash
 
+function install_zsh_oh_my_zsh() {
+    echo "Installing Zsh..."
+    if ! command -v zsh &> /dev/null; then
+        sudo apt update && sudo apt install -y zsh
+    fi
+
+    echo "Installing Oh My Zsh..."
+    if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        chsh -s $(which zsh)
+    fi
+
+    echo "Setting Zsh as the default shell..."
+    echo 'export SHELL=$(which zsh)' >> ~/.zshrc
+    echo 'exec $(which zsh) -l' >> ~/.bashrc
+}
+
 function install_tools() {
-    # Install Homebrew
-    # test sync
+    # Install Zsh and Oh My Zsh first
+    install_zsh_oh_my_zsh
+
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -22,14 +40,11 @@ function install_tools() {
     brew install fd
     echo "Installing bat, git-delta, eza, tlrc, thefuck, zoxide..."
     brew install bat git-delta eza tlrc thefuck zoxide
-    echo 'alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions" >> $HOME/.zshrc'
-
+    echo 'alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"' >> $HOME/.zshrc
 
     echo 'eval "$(zoxide init zsh)"' >> $HOME/.zshrc
-
     echo 'alias cd="z"' >> $HOME/.zshrc
 
-    
     echo "Installing zsh plugins..."
     brew install zsh-autosuggestions
     brew install zsh-syntax-highlighting
@@ -47,8 +62,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
 _fzf_compgen_path() {
   fd --hidden --exclude .git . "$1"
 }
@@ -64,7 +77,6 @@ show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head
 export FZF_CTRL_T_OPTS="--preview '\''$show_file_or_dir_preview'\''"
 export FZF_ALT_C_OPTS="--preview '\''eza --tree --color=always {} | head -200'\''"
 
-# Advanced customization of fzf options via _fzf_comprun function
 _fzf_comprun() {
   local command=$1
   shift
@@ -109,7 +121,6 @@ bindkey '\''^[[B'\'' history-search-forward
     echo "Setting KEYTIMEOUT..."
     echo "KEYTIMEOUT=50" >> ~/.zshrc
     echo "alias cd='z'" >> ~/.zshrc
-
 }
 
 function revert_changes() {
@@ -139,4 +150,3 @@ if [[ $1 == "revert" ]]; then
 else
     install_tools
 fi
-
